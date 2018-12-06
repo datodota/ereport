@@ -167,9 +167,6 @@
               </tbody></table>
             </div>
             <!-- /.box-body -->
-            <a href="mailto:someone@something.com?subject=your title&body=TThe message">
-    <button id="btnOutlook">Go to Outlook</button>
-</a>
           </div>
         </div>
       </div><!--row-->

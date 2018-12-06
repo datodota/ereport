@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class cabang extends MY_Controller {
+class admin extends MY_Controller {
     
         function __construct() {
             parent::__construct();
@@ -10,13 +10,13 @@ class cabang extends MY_Controller {
             $this->load->model('logincheker');
             $this->load->model('view');
             $this->load->helper('date');  
-            if($this->session->userdata('status')!="1"){
+            if($this->session->userdata('status')!="0"){
                 redirect(base_url(),'refresh');
                }            
         }
 
-        public function zerodefect(){
-           $this->render_page('cabang/zero_defect');
+        public function report(){
+           $this->render_page('admin/report');
         }
 
     }

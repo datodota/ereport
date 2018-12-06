@@ -12,6 +12,8 @@
   <link rel="stylesheet" href="<?php echo base_url('assets/bower_components/font-awesome/css/font-awesome.min.css')?>">
   <!-- Ionicons -->
   <link rel="stylesheet" href="<?php echo base_url('assets/bower_components/Ionicons/css/ionicons.min.css')?>">
+  <!-- Datatables -->
+  <link rel="stylesheet" href="<?php echo base_url('assets/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css')?>">
   <!-- iCheck for checkboxes and radio inputs -->
   <link rel="stylesheet" href="<?php echo base_url('assets/plugins/iCheck/all.css')?>">
   <!-- Theme style -->
@@ -224,14 +226,15 @@
 <script src="<?php echo base_url('assets/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js')?>"></script>
 <!-- Bootstrap WYSIHTML5 -->
 <script src="<?php echo base_url('assets/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js')?>"></script>
+<!-- Datatables -->
+<script src="<?php echo base_url('assets/bower_components/datatables.net/js/jquery.dataTables.min.js')?>"></script>
+<script src="<?php echo base_url('assets/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js')?>"></script>
 <!-- Slimscroll -->
 <script src="<?php echo base_url('assets/bower_components/jquery-slimscroll/jquery.slimscroll.min.js')?>"></script>
 <!-- FastClick -->
 <script src="<?php echo base_url('assets/bower_components/fastclick/lib/fastclick.js')?>"></script>
 <!-- AdminLTE App -->
 <script src="<?php echo base_url('assets/dist/js/adminlte.min.js')?>"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="assets/dist/js/demo.js')?>"></script>
 <!-- fullCalendar -->
 <script src="<?php echo base_url('assets/bower_components/moment/moment.js')?>"></script>
 <script src="<?php echo base_url('assets/bower_components/fullcalendar/dist/fullcalendar.min.js')?>"></script>
@@ -251,5 +254,35 @@
 <script src="<?php echo base_url('assets/plugins/iCheck/icheck.min.js')?>"></script>
 <!-- FastClick -->
 <script src="<?php echo base_url('assets/bower_components/fastclick/lib/fastclick.js')?>"></script>
+<script>
+  $(function () {
+    $('#example1 thead tr').clone(true).appendTo( '#example1 thead' );
+    $('#example1 thead tr:eq(1) th').each( function (i) {
+        var title = $(this).text();
+        $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+ 
+        $( 'input', this ).on( 'keyup change', function () {
+            if ( table.column(i).search() !== this.value ) {
+                table
+                    .column(i)
+                    .search( this.value )
+                    .draw();
+            }
+        } );
+    } );
+
+    $('#example1').DataTable( {
+        orderCellsTop : true,
+        fixedHeader   : true,
+        paging        : false,
+        lengthChange  : false,
+        searching     : false,
+        ordering      : false,
+        info          : false
+        
+    } );
+   
+  })
+</script>
 </body>
 </html>

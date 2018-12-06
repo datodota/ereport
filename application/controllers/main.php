@@ -33,9 +33,12 @@ class Main extends MY_Controller {
                  $state = $this->session->userdata('status');
 
                 if ($state == 0) {                  
-                    redirect('cabang/zerodefect');             
-                    
+                    redirect('admin/report');        
                 }
+                elseif ($state == 1) {
+                    redirect('cabang/zerodefect');
+                }
+                
                else{
                 redirect(base_url());
                }              
