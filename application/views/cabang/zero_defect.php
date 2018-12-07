@@ -121,11 +121,26 @@
           <div class="box">
             <div class="box-header">
               <h3 class="box-title">Data Laporan Zero Defect</h3>
-
+  <!-- test reminder -->
+  <?php           $cabang = $this->session->userdata('kode_cabang');
+                 $queryx = $this->db->query("SELECT * FROM tb_laporan WHERE kode_cabang=$cabang");   
+                 $lprnx=$queryx->result();
+                foreach($lprnx as $lapr){
+                    if ($lapr->status=="Following Up"){
+                      if ($lapr->target_date==date("d/m/Y")){?>
+                      <script>
+                        window.open('http://localhost/ereport','popUpWindow','width=+screen.width,height=+screen.height,toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0,fullscreen="yes"')
+                      </script>
+                      <?php }
+                    }
+                }
+                  ?>
               <div class="box-tools">
                 <div class="input-group input-group-sm" style="width: 150px;">
                   <input type="text" name="table_search" class="form-control pull-right" placeholder="Search">
-
+                
+                  
+                  <!-- test reminder -->
                   <div class="input-group-btn">
                     <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
                   </div>
@@ -148,7 +163,7 @@
                   <th>Status</th>
                 </tr>
                 <?php
-                $cabang = $this->session->userdata('kode_cabang');
+                
                 $query2 = $this->db->query("SELECT * FROM tb_laporan WHERE kode_cabang=$cabang");   
                 $lprn=$query2->result();
                 foreach($lprn as $lap){
@@ -180,3 +195,8 @@
     </section>
     <!-- /.content -->
   </div> 
+  <script language="javascript">
+      setTimeout(function(){
+        window.location.reload(1);
+      }, 300000);
+  </script>
