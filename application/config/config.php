@@ -24,7 +24,7 @@ date_default_timezone_set('Asia/Jakarta');
 | a PHP script and you can easily do that on your own.
 |10.130.5.177
 */
-$config['base_url'] = 'http://localhost/ereport';
+$config['base_url'] = 'http://10.130.5.146/ereport';
 
 /*
 |--------------------------------------------------------------------------

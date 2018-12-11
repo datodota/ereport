@@ -18,6 +18,5 @@ class cabang extends MY_Controller {
         public function zerodefect(){
            $this->render_page('cabang/zero_defect');
         }
-
     }
 ?>
