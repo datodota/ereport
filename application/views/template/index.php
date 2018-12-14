@@ -18,6 +18,8 @@
   <link rel="stylesheet" href="<?php echo base_url('assets/plugins/iCheck/all.css')?>">
   <!-- Theme style -->
   <link rel="stylesheet" href="<?php echo base_url('assets/dist/css/AdminLTE.min.css')?>">
+  <!-- Custom style -->
+  <link rel="stylesheet" href="<?php echo base_url();?>assets/dist/css/style.css">
   <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="<?php echo base_url('assets/dist/css/skins/skin-red.css')?>">
@@ -176,7 +178,9 @@
     )
 
     //Date picker
-    $('#datepicker').datepicker({format: 'dd/mm/yyyy', autoclose: true})
+    $('#datepicker').datepicker({format: 'yyyy/mm/dd', autoclose: true, startDate: new Date()})
+    $('#datepickerStart').datepicker({format: 'yyyy/mm/dd', autoclose: true})
+    $('#datepickerEnd').datepicker({format: 'yyyy/mm/dd', autoclose: true})
     
 
     //iCheck for checkbox and radio inputs

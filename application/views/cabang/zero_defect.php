@@ -1,5 +1,6 @@
 <!-- jQuery 3 -->
 <script src="<?php echo base_url('assets/bower_components/jquery/dist/jquery.min.js')?>"></script>
+
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -31,7 +32,7 @@
                             <input type="hidden" class="form-control" name="branch" value="<?php echo $this->session->userdata('kode_cabang')?>">
                             <div class="form-group"><!--date-->
                               <label for="exampleInputEmail1">Date</label>
-                              <input type="text" class="form-control" id="date" name="todayDate" value="<?php echo date("d/m/Y")?>" readonly>
+                              <input type="text" class="form-control" id="date" name="todayDate" value="<?php echo date("Y/m/d")?>" readonly>
                                   <script>
                                       // var d = new Date();
                                       // var day = d.getDate();
@@ -119,7 +120,57 @@
             </div>
           <!--End Modal-->
         </div><!--callout-->
-        
+        <div class="searchBox">
+          <div class="col-xs-12">
+            <div class="box-tools">
+                <div class="input-group input-group-sm" style="width: 150px;">
+                               
+                  <div class="input-group-btn">
+                    <button type="submit" class="btn bg-olive margin" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" ><i class="fa fa-search"></i> Search</button>
+                  </div>
+                </div>
+            </div>
+                  
+            <div class="collapse" id="collapseExample">
+              <div class="box box-success">
+                <div class="inner-box">
+                <h4>Cari Data Berdasarkan tanggal</h4>
+
+                <div class="row">
+                  <form action="<?php echo base_url(). 'index.php/input/laporan'; ?>" role="form" method="post">
+                   <div class="col-xs-4">
+                      <div class="input-group date">
+                        <div class="input-group-addon">
+                          <i class="fa fa-calendar"></i>
+                        </div>
+                        <input type="text" class="form-control pull-right" id="datepickerStart" name="startDate">
+                      </div>
+                   </div>
+                   <div class="col-xs-1">
+                     <h5>To</h5>
+                   </div> 
+                   <div class="col-xs-4">
+                      <div class="input-group date">
+                        <div class="input-group-addon">
+                          <i class="fa fa-calendar"></i>
+                        </div>
+                        <input type="text" class="form-control pull-right" id="datepickerEnd" name="endDate">
+                      </div>
+                   </div>
+
+                   <div class="col-xs-2">
+                      <button type="submit" class="btn btn-success">Search</button>
+                   </div>
+                   </form> 
+                 </div>
+                </div>
+                 
+              </div>
+              
+            </div>
+          </div>
+            
+        </div>
         <div class="col-xs-12">
           <div class="box">
             <div class="box-header">
@@ -132,23 +183,17 @@
                     if ($lapr->status=="Following Up"){
                       if ($lapr->target_date==date("d/m/Y")){?>
                       <script>
-                        window.open('http://localhost/ereport/cabang/popup/<?php echo $lapr->status;?>','popUpWindow','width=+screen.width,height=+screen.height,toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0,fullscreen="yes"')
+                          setTimeout(function(){
+                            window.location.reload(1);
+                          }, 30000);
+                      
+                        window.open('http://localhost/ereport/cabang/popup/<?php echo $lapr->status;?>','popUpWindow','width='+screen.availWidth+',height='+screen.availHeight+',fullscreen="yes"')
                       </script>
                       <?php }
                     }
                 }
                   ?>
-              <div class="box-tools">
-                <div class="input-group input-group-sm" style="width: 150px;">
-                  <input type="text" name="table_search" class="form-control pull-right" placeholder="Search">
-                
-                  
-                  <!-- test reminder -->
-                  <div class="input-group-btn">
-                    <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
-                  </div>
-                </div>
-              </div>
+             
             </div>
             <!-- /.box-header -->
             <div class="box-body table-responsive no-padding">
@@ -182,7 +227,21 @@
                         <td><?php echo $lap->target_date?></td>
                         <td><?php echo $lap->status?></td>     
                         <td>
-                          <button type="button" class="btn btn-info" data-toggle="modal" data-target="#<?php echo $lap->ID_laporan?>modal-edit-default">
+                          <?php 
+                          if ($lap->status == "Done") {?>
+                            <script>
+                              $(document).ready(function() {
+                                document.getElementById("btnUpdate<?php echo $lap->ID_laporan?>").disabled = true;
+                              });
+                              </script>
+                      <?php } else {?>
+                              <script>
+                                $(document).ready(function() {
+                                  document.getElementById("btnUpdate<?php echo $lap->ID_laporan?>").disabled = false;
+                                });
+                                </script>
+                      <?php } ?>
+                          <button id="btnUpdate<?php echo $lap->ID_laporan?>" type="button" class="btn btn-info" data-toggle="modal" data-target="#<?php echo $lap->ID_laporan?>modal-edit-default">
                               <i class="fa fa-pencil-square"></i><span> Update</span> 
                           </button>
 
@@ -199,13 +258,13 @@
                                       <div class="modal-body">
                                       <div class="row">
                                         <!--Form-->
-                                        <form action="<?php echo base_url(). 'index.php/input/laporan'; ?>" role="form" method="post">
+                                        <form action="<?php echo base_url(). 'index.php/updatedata/update_report'; ?>" role="form" method="post">
                                           <div class="col-md-6"><!--coloumn left-->
                                             <div class="box-body"> <!--boxbody-->
-                                                <input type="hidden" class="form-control" name="branch" value="<?php echo $this->session->userdata('kode_cabang')?>">
+                                            <input type="hidden" class="form-control" name="idUpdate" value="<?php echo $lap->ID_laporan?>">
                                                 <div class="form-group"><!--date-->
                                                   <label for="exampleInputEmail1">Date</label>
-                                                  <input type="text" class="form-control" id="date" name="todayDate" value="<?php echo $lap->tanggal?>" readonly>
+                                                  <input type="text" class="form-control" id="date"  value="<?php echo $lap->tanggal?>" readonly>
                                                       <script>
                                                         
                                                       </script>
@@ -213,7 +272,7 @@
 
                                                 <div class="form-group" ><!--Error-->
                                                     <label>Error</label>
-                                                    <select class="form-control" id="mySelect" onchange="myFunction()" style="width: 100%;" name="errorList">
+                                                    <select class="form-control" id="mySelect" onchange="myFunction()" style="width: 100%;"  disabled>
                                                       <option><?php echo $lap->eror?></option>
                                                       <option>Human</option>
                                                       <option>System</option>
@@ -227,11 +286,11 @@
                                                 </div>
                                                 <div class="form-group"><!--description-->
                                                   <label>Description</label>
-                                                  <textarea class="form-control" rows="3" placeholder="Type Here ..." name="description"><?php echo $lap->deskripsi?></textarea>
+                                                  <textarea class="form-control" rows="3" placeholder="Type Here ..." readonly><?php echo $lap->deskripsi?></textarea>
                                                 </div><!--description-->
                                                 <div class="form-group"><!--Effort-->
                                                   <label>Effort</label>
-                                                  <textarea class="form-control" rows="3" placeholder="Type Here ..." name="effort"><?php echo $lap->upaya?></textarea>
+                                                  <textarea class="form-control" rows="3" placeholder="Type Here ..." readonly><?php echo $lap->upaya?></textarea>
                                                 </div><!--Effort-->
 
                                             
@@ -243,17 +302,17 @@
                                             
                                               <div class="form-group"><!--Solusi-->
                                                     <label>Solution</label>
-                                                    <textarea class="form-control" rows="3" placeholder="Type Here ..." name="solution"><?php echo $lap->solusi?></textarea>
+                                                    <textarea class="form-control" rows="3" placeholder="Type Here ..." name="solutionUpdate"><?php echo $lap->solusi?></textarea>
                                                 </div><!--Solusi-->
 
                                                 <div class="form-group"><!--PIC-->
                                                   <label>PIC</label>
-                                                  <input type="text" class="form-control" id="date" placeholder="Enter PIC ..." name="pic" value="<?php echo $lap->PIC?>">
+                                                  <input type="text" class="form-control" id="date" placeholder="Enter PIC ..." value="<?php echo $lap->PIC?>" readonly>
                                                 </div><!--PIC-->
 
                                               <div class="form-group"><!--Status-->
                                                 <label>State</label>
-                                                <select class="form-control"  style="width: 100%;" name="state">
+                                                <select class="form-control"  style="width: 100%;" name="stateUpdate">
                                                     <option><?php echo $lap->status?></option>
                                                     <option>Done</option>
                                                     <option >Following Up</option>
@@ -265,7 +324,7 @@
                                                   <script>
                                                   $(document).ready(function () {
                                                     //Date picker
-                                                    $('#<?php echo $lap->ID_laporan?>').datepicker({format: 'dd/mm/yyyy', autoclose: true})
+                                                    $('#<?php echo $lap->ID_laporan?>').datepicker({format: 'yyyy/mm/dd', autoclose: true, startDate: new Date()})
                                                   })
                                                   </script>
                                                   
@@ -273,7 +332,7 @@
                                                     <div class="input-group-addon">
                                                       <i class="fa fa-calendar"></i>
                                                     </div>
-                                                    <input type="text" class="form-control pull-right" id="<?php echo $lap->ID_laporan?>" name="targetDate" value="<?php echo $lap->target_date?>">
+                                                    <input type="text" class="form-control pull-right" id="<?php echo $lap->ID_laporan?>" name="targetDateUpdate" value="<?php echo $lap->target_date?>">
                                                   </div>
 
                                                 
@@ -314,8 +373,6 @@
     </section>
     <!-- /.content -->
   </div> 
-  <script language="javascript">
-      setTimeout(function(){
-        window.location.reload(1);
-      }, 300000);
-  </script>
+
+
+  
